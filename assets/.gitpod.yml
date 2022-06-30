@@ -1,8 +1,7 @@
-image: drud/ddev-gitpod-base:latest
+image: drupalpod/drupalpod-gitpod-base:latest
 
 tasks:
-  - name: ddev-gitpod-launcher
-    init: |
+  - init: |
       ddev start -y
       ddev composer global config allow-plugins true
       ddev composer config allow-plugins.composer/installers true
@@ -20,50 +19,45 @@ tasks:
 # VScode xdebug extension
 vscode:
   extensions:
-    # PHP extension
+    # PHP extensions.
     - felixfbecker.php-debug
+    - wongjn.php-sniffer
+    - neilbrayfield.php-docblocker
     - bmewburn.vscode-intelephense-client
-    - ziyasal.vscode-open-in-github
 
     # Bash extensions
     - timonwong.shellcheck
     - rogalmic.bash-debug
 
+    # Twig extensions.
+    - mblode.twig-language-2
+
 ports:
-  # Ignore direct-build https port
-  - port: 2222
-    onOpen: ignore
+  # Used by ddev - local db clients
   - port: 3306
     onOpen: ignore
   # Used by projector
   - port: 6942
     onOpen: ignore
+  # Used by MailHog
+  - port: 8027
+    onOpen: ignore
+  # Used by phpMyAdmin
+  - port: 8036
+    onOpen: ignore
   # Direct-connect ddev-webserver port that is the main port
   - port: 8080
     onOpen: ignore
-  # Currently un-notified and unsupported mailhog http port
-  - port: 8025
-    onOpen: ignore
-  # Currently un-notified and unsupported mailhog https port
-  - port: 8026
-    onOpen: ignore
-  # Currently un-notified and unsupported phpmyadmin http port
-  - port: 8036
-    onOpen: ignore
-  # Currently un-notified and unsupported phpmyadmin https port
-  - port: 8037
-    onOpen: ignore
-  # router http port that we're ignoring.
-  - port: 8888
-    onOpen: ignore
-  # router https port that we're ignoring.
-  - port: 8889
+  # Ignore host https port
+  - port: 8443
     onOpen: ignore
   # xdebug port
   - port: 9003
     onOpen: ignore
   # projector port
   - port: 9999
+    onOpen: open-browser
+
 
 github:
   prebuilds:
